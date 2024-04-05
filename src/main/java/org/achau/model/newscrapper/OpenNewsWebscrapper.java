@@ -6,6 +6,7 @@ import org.achau.model.util.StringTrimmer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebElement;
@@ -28,7 +29,10 @@ public class OpenNewsWebscrapper extends NewScrapper{
                These webscrapped captures recent news articles along with a short description about them.
                For more info on the article, click on the link provided.
                """;
-       this.webDriver = new EdgeDriver();
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--start-minimized");
+        options.addArguments("--headless");
+       this.webDriver = new EdgeDriver(options);
     }
 
     @Override

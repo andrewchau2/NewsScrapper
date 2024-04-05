@@ -4,6 +4,7 @@ import org.achau.model.pojo.IndependentNewsItem;
 import org.achau.model.pojo.NewsItem;
 import org.openqa.selenium.*;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -22,7 +23,10 @@ public class IndependentNewsWebScrapper extends NewScrapper {
 
     public static final String worldNewsUrl = "https://ijr.com/tag/world-news/";
     public IndependentNewsWebScrapper(){
-        webDriver = new EdgeDriver();
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--start-minimized");
+        options.addArguments("--headless");
+        webDriver = new EdgeDriver(options);
         this.url = "https://ijr.com/";
         this.description = """
                Webscrapped News Articles from Independent Journal News (https://ijr.com/)
