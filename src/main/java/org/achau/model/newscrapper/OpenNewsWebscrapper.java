@@ -1,6 +1,6 @@
 package org.achau.model.newscrapper;
 
-import org.achau.FileLogger;
+import org.achau.logger.FileLogger;
 import org.achau.model.pojo.NewsItem;
 import org.achau.model.pojo.OpenNewsItem;
 import org.achau.model.util.StringTrimmer;

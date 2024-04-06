@@ -1,4 +1,4 @@
-package org.achau.view;
+package org.achau.view.exceptions;
 
 public class InvalidOperationException extends Exception{
     public InvalidOperationException(){}

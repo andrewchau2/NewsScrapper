@@ -3,6 +3,8 @@ package org.achau.view;
 import org.achau.controller.IndependentJournalController;
 import org.achau.controller.OpenNewsController;
 import org.achau.model.pojo.NewsItem;
+import org.achau.view.exceptions.InvalidOperationException;
+import org.achau.view.exceptions.InvalidWebServiceException;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class NewsResultHandler {
         onController = new OpenNewsController();
     }
 
-    public List<NewsItem> run(String webService, String operation) throws InvalidOperationException, InvalidWebServiceException{
+    public List<NewsItem> run(String webService, String operation) throws InvalidOperationException, InvalidWebServiceException {
         switch(webService.toLowerCase()){
             case "ij":
                 return switch (operation.toLowerCase()) {

@@ -1,13 +1,12 @@
-import org.achau.FileLogger;
+import org.achau.logger.FileLogger;
 import org.achau.model.pojo.NewsItem;
 import org.achau.view.ExportNewsResultHandler;
-import org.achau.view.InvalidOperationException;
-import org.achau.view.InvalidWebServiceException;
+import org.achau.view.exceptions.InvalidOperationException;
+import org.achau.view.exceptions.InvalidWebServiceException;
 import org.achau.view.NewsResultHandler;
 
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Driver {
 
