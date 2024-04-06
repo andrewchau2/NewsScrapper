@@ -42,7 +42,4 @@ public class NewsResultHandler {
         ijController.quit();
         onController.quit();
     }
-
-
-
 }
