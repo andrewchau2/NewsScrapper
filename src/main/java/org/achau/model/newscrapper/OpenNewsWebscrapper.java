@@ -1,5 +1,6 @@
 package org.achau.model.newscrapper;
 
+import org.achau.FileLogger;
 import org.achau.model.pojo.NewsItem;
 import org.achau.model.pojo.OpenNewsItem;
 import org.achau.model.util.StringTrimmer;
@@ -14,6 +15,7 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class OpenNewsWebscrapper extends NewScrapper{
 
@@ -22,6 +24,7 @@ public class OpenNewsWebscrapper extends NewScrapper{
 
     private final WebDriver webDriver;
 
+    private final static String logHeader = "OpenNewsWebscrapper: ";
     public OpenNewsWebscrapper(){
        this.url =  "https://opennewswire.org/feed/?language=1";
        this.description = """
@@ -51,12 +54,13 @@ public class OpenNewsWebscrapper extends NewScrapper{
 
     public List<NewsItem> getRecentNews(){
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(2));
-
+        FileLogger.logger.log(Level.INFO, logHeader + "Executing Recent World News Scrapping");
         List<NewsItem> ns = wait.until(d -> {
             performGetRecentNewsSetup();
             return performGetRecentNewsExecution();
         });
 
+        FileLogger.logger.log(Level.INFO, logHeader + "Completed Recent World News Scrapping");
         return ns;
     }
     private void performGetRecentNewsSetup(){
@@ -76,6 +80,7 @@ public class OpenNewsWebscrapper extends NewScrapper{
 
 
             OpenNewsItem item = new OpenNewsItem(href,descriptionTrimmed,title);
+            FileLogger.logger.log(Level.INFO, logHeader + "Scrapped item " + item);
             newsList.add(item);
         }
         return newsList;

@@ -26,9 +26,11 @@ public class NewsResultHandler {
                             throw new InvalidOperationException("Independent Journal: " + operation + " not found for operation column");
                 };
             case "on":
-                return onController.getRecentNews();
-
-
+                return switch(operation.toLowerCase()){
+                    case "world" -> onController.getRecentNews();
+                    default ->
+                            throw new InvalidOperationException("Open News: " + operation + " not found for operation column");
+                };
             default:
                 throw new InvalidWebServiceException(webService + "not found");
         }

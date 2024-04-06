@@ -26,7 +26,6 @@ public class ExportNewsResultHandler {
             jsonNewsItem.put("service", serviceName);
             jsonNewsItem.put("type", operation);
             jsonNewsItem.put("url",item.getUrl());
-            System.out.println(item.getDescription());
             jsonNewsItem.put("description",item.getDescription());
             jsonNewsItem.put("thumbnail",item.getThumbnailUrl());
             jsonNewsItem.put("title",item.getTitle());

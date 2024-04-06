@@ -1,5 +1,6 @@
 package org.achau.model.newscrapper;
 
+import org.achau.FileLogger;
 import org.achau.model.pojo.IndependentNewsItem;
 import org.achau.model.pojo.NewsItem;
 import org.openqa.selenium.*;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class IndependentNewsWebScrapper extends NewScrapper {
 
@@ -22,6 +24,8 @@ public class IndependentNewsWebScrapper extends NewScrapper {
     public static final String usNewsUrl = "https://ijr.com/tag/us-news/";
 
     public static final String worldNewsUrl = "https://ijr.com/tag/world-news/";
+
+    private static final String logHeader = "IndependentNewsWebScrapper: ";
     public IndependentNewsWebScrapper(){
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--start-minimized");
@@ -46,44 +50,54 @@ public class IndependentNewsWebScrapper extends NewScrapper {
     }
 
     public List<NewsItem> getRecentPoliticsNews(){
+        FileLogger.logger.log(Level.INFO, logHeader + "Executing Recent Politics Scrapping");
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        //performGetTopUSResultsSetUp();
-        return wait.until(d -> {
+        List<NewsItem> newsList =  wait.until(d -> {
             performGetRecentPoliticsSetUp();
             return performWebpageScrapping();
         });
+        FileLogger.logger.log(Level.INFO, logHeader + "Completed Recent Politics Scrapping");
+        return newsList;
     }
 
     public List<NewsItem> getRecentUSNews(){
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        //performGetTopUSResultsSetUp();
-        return wait.until(d -> {
+        List<NewsItem> newsList =  wait.until(d -> {
+            FileLogger.logger.log(Level.INFO, logHeader + "Executing Recent US News Scrapping");
             performGetRecentUSNewsSetUp();
             return performWebpageScrapping();
         });
+        FileLogger.logger.log(Level.INFO, logHeader + "Completed Recent US News Scrapping");
+        return newsList;
     }
 
 
     public List<NewsItem> getRecentWorldNews(){
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
-        //performGetTopUSResultsSetUp();
-        return wait.until(d -> {
+        List<NewsItem> newsList = wait.until(d -> {
+            FileLogger.logger.log(Level.INFO, logHeader + "Executing Recent World News Scrapping");
             performGetRecentWorldNewsSetUp();
             return performWebpageScrapping();
         });
+        FileLogger.logger.log(Level.INFO, logHeader + "Completed Recent World News Scrapping");
+        return newsList;
     }
 
-    public String returnToUSNewsHomePage(){webDriver.get(usNewsUrl); return webDriver.getCurrentUrl();}
+    public String returnToUSNewsHomePage(){
+        webDriver.get(usNewsUrl);
+        return webDriver.getCurrentUrl();}
     public String returnToPoliticsHomePage(){
-        webDriver.get(politicsUrl); return webDriver.getCurrentUrl();
+        webDriver.get(politicsUrl);
+        return webDriver.getCurrentUrl();
     }
 
     public String returnToWorldNewsHomePage(){
-        webDriver.get(worldNewsUrl); return webDriver.getCurrentUrl();
+        webDriver.get(worldNewsUrl);
+        return webDriver.getCurrentUrl();
     }
 
-    private String performGetRecentPoliticsSetUp(){
-        returnToPoliticsHomePage(); return webDriver.getCurrentUrl();
+    private void performGetRecentPoliticsSetUp(){
+        returnToPoliticsHomePage();
     }
 
     private void performGetRecentUSNewsSetUp(){
@@ -106,6 +120,7 @@ public class IndependentNewsWebScrapper extends NewScrapper {
             String description = w.findElement(By.className("jeg_post_excerpt")).getText();
             String thumbnail = newsContent.findElement(By.tagName("img")).getAttribute("data-src");
             IndependentNewsItem item = new IndependentNewsItem(article,description,header, thumbnail);
+            FileLogger.logger.log(Level.INFO, logHeader + "Scrapped item " + item);
             newsList.add(item);
         }
 

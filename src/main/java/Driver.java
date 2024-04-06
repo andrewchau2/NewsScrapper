@@ -1,3 +1,4 @@
+import org.achau.FileLogger;
 import org.achau.model.pojo.NewsItem;
 import org.achau.view.ExportNewsResultHandler;
 import org.achau.view.InvalidOperationException;
@@ -5,30 +6,41 @@ import org.achau.view.InvalidWebServiceException;
 import org.achau.view.NewsResultHandler;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Driver {
 
+    private static final String logHeader = "Main: ";
     public static void main(String[] args) {
 
         NewsResultHandler handler = new NewsResultHandler();
-        if(args.length <= 2) {
+        if(args.length < 2) {
+            FileLogger.logger.log(Level.WARNING, logHeader + "Invalid sets of arguments");
             handler.cleanUp();
             return;
         }
-
-        for(int i = 0; i < args.length - 1; i+=2){
-            System.out.println(args[i] + " " + args[i+1]);
-            try {
-                List<NewsItem> newsList = handler.run(args[i], args[i + 1]);
+        try {
+            for (int i = 0; i < args.length - 1; i += 2) {
                 String name = args[i].equals("ij") ? "Independent_Journal" : "Open_News";
-                String operation = args[i+1];
-                ExportNewsResultHandler.exportNewsResults(newsList,name,operation);
-
-            }catch(InvalidWebServiceException | InvalidOperationException e1){
-                e1.printStackTrace();
+                String operation = args[i + 1];
+                    FileLogger.logger.log(Level.INFO, logHeader + "Starting " + name + " with operation " + operation + " scrap");
+                    List<NewsItem> newsList = handler.run(args[i], args[i + 1]);
+                    ExportNewsResultHandler.exportNewsResults(newsList, name, operation);
             }
+        }catch(InvalidWebServiceException | InvalidOperationException e){
+            FileLogger.logger.log(Level.SEVERE, logHeader + "Failed to scrap data -" +  e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception e1){
+            FileLogger.logger.log(Level.SEVERE, logHeader + "Failed Unknown Exception - " + e1.getMessage());
+            e1.printStackTrace();
+        }
+        finally{
+            handler.cleanUp();
+            FileLogger.logger.log(Level.INFO, logHeader + "Cleanup successful");
         }
 
-        handler.cleanUp();
+        FileLogger.logger.log(Level.INFO, logHeader + "All services finished running");
     }
 }
