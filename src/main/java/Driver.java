@@ -7,10 +7,16 @@ import org.achau.view.NewsResultHandler;
 
 import java.util.List;
 import java.util.logging.Level;
-
 public class Driver {
 
     private static final String logHeader = "Main: ";
+
+
+    /*
+    Main class:
+    Initializes the NewsResultHandler and passes in the user arguments from CLI.
+    Result are then converted into JSON output specified in the ExportNewsResultHandler class.
+     */
     public static void main(String[] args) {
 
         NewsResultHandler handler = new NewsResultHandler();

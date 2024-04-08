@@ -14,6 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * Inherited class of NewScrapper that focuses on Independent News Scrapping
+ * All functionalities in this class defines the webscrapper for the Independent News website
+ * Results are outputted as a List of NewsItem objects.
+ * Logging for the operations are also documented and outputted in the NewsScrapper_logs folder
+ * @author Andrew Chau
+ * @version 1.0
+ */
 public class IndependentNewsWebScrapper extends NewScrapper {
 
     private String url;
@@ -26,6 +34,12 @@ public class IndependentNewsWebScrapper extends NewScrapper {
     public static final String worldNewsUrl = "https://ijr.com/tag/world-news/";
 
     private static final String logHeader = "IndependentNewsWebScrapper: ";
+
+    /**
+     * Constructor for the IndependentNewsWebScrapper class.
+     * The URL and description for the scrapping are initialized during this process.
+     * Also, the webscrapper is initialized along with any options given
+     */
     public IndependentNewsWebScrapper(){
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--start-minimized");
@@ -39,16 +53,31 @@ public class IndependentNewsWebScrapper extends NewScrapper {
                """;
     }
 
+    /**
+     * Returns the IndependentNews url initialized during the constructor operation
+     * @return string of the url
+     */
     @Override
     public String getUrl() {
         return url;
     }
 
+    /**
+     * Returns the IndependentNews description initialized during the constructor operation
+     * @return string of the description
+     */
     @Override
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Returns the latest Politics News from scrapping
+     * This method performs the execution of the scrapping
+     * All necessary methods to get the scrapping results are called
+     *
+     * @return List of NewsItem Objects obtained from scrapping
+     */
     public List<NewsItem> getRecentPoliticsNews(){
         FileLogger.logger.log(Level.INFO, logHeader + "Executing Recent Politics Scrapping");
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
@@ -60,6 +89,13 @@ public class IndependentNewsWebScrapper extends NewScrapper {
         return newsList;
     }
 
+    /**
+     * Returns the latest US News from scrapping
+     * This method performs the execution of the scrapping
+     * All necessary methods to get the scrapping results are called
+     *
+     * @return List of NewsItem Objects obtained from scrapping
+     */
     public List<NewsItem> getRecentUSNews(){
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
         List<NewsItem> newsList =  wait.until(d -> {
@@ -71,7 +107,13 @@ public class IndependentNewsWebScrapper extends NewScrapper {
         return newsList;
     }
 
-
+    /**
+     * Returns the latest World News from scrapping
+     * This method performs the execution of the scrapping
+     * All necessary methods to get the scrapping results are called
+     *
+     * @return List of NewsItem Objects obtained from scrapping
+     */
     public List<NewsItem> getRecentWorldNews(){
         Wait<WebDriver> wait = new WebDriverWait(webDriver, Duration.ofSeconds(5));
         List<NewsItem> newsList = wait.until(d -> {
@@ -83,29 +125,59 @@ public class IndependentNewsWebScrapper extends NewScrapper {
         return newsList;
     }
 
+    /**
+     * Sets the webscrapper current page to the US News Page.
+     * @return the string of the US News Page url
+     */
     public String returnToUSNewsHomePage(){
         webDriver.get(usNewsUrl);
         return webDriver.getCurrentUrl();}
+    /**
+     * Sets the webscrapper current page to the Politics News Page.
+     * @return the string of the Politics News Page url
+     */
     public String returnToPoliticsHomePage(){
         webDriver.get(politicsUrl);
         return webDriver.getCurrentUrl();
     }
 
+    /**
+     * Sets the webscrapper current page to the World News Page.
+     * @return the string of the World News Page url
+     */
     public String returnToWorldNewsHomePage(){
         webDriver.get(worldNewsUrl);
         return webDriver.getCurrentUrl();
     }
 
+
+    /**
+     * Performs the setup of the Politics News webscrapping.
+     * Any operations that need to be done before the webscrapper execution should be done in this method
+     */
     private void performGetRecentPoliticsSetUp(){
         returnToPoliticsHomePage();
     }
 
+    /**
+     * Performs the setup of the US News webscrapping.
+     * Any operations that need to be done before the webscrapper execution should be done in this method
+     */
     private void performGetRecentUSNewsSetUp(){
         returnToUSNewsHomePage();
     }
+
+    /**
+     * Performs the setup of the World News webscrapping.
+     * Any operations that need to be done before the webscrapper execution should be done in this method
+     */
     private void performGetRecentWorldNewsSetUp(){returnToWorldNewsHomePage();}
 
-
+    /**
+     * Performs the webscrapping for all Independent News Article Pages
+     * Regardless of the news article type scrapped(politics,US,etc), this method must always be called to get the results
+     * @return list of NewsItems objects from scrapping
+     */
     private List<NewsItem> performWebpageScrapping(){
 
         List<NewsItem> newsList = new ArrayList<>();
@@ -127,6 +199,9 @@ public class IndependentNewsWebScrapper extends NewScrapper {
         return newsList;
     }
 
+    /**
+     * Exits the web scrapper. No other operations from the class should be called after this method is called.
+     */
     public void quit(){
         webDriver.quit();
     }
