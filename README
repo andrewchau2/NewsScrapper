@@ -1,0 +1,18 @@
+This project webscraps news articles from different news websites and exports their data in JSON format.
+
+Current options:
+Option #1 -
+Command: ij us
+Description: Scraps the recent Independent Journal US news
+
+Option #2 -
+Command: ij world
+Description: Scraps the recent Independent Journal world news
+
+Option #3 -
+Command: ij politics
+Description: Scraps the recent Independent Journal politics news
+
+Option #4 -
+Command: on world
+Description: Scraps the recent OpenNews news
